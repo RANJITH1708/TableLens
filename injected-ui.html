@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TableLens</title> <meta charset="UTF-8">
+    <link rel="stylesheet" href="injected-ui.css">
+    <link href='lib/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="supbyte-exporter-dialog">
+
+        <header class="supbyte-header" id="drag-header" title="Double-click to move">
+            <div class="header-title" id="main-header-title">
+                <h3>TableLens</h3> </div>
+            <div class="header-title view-header" id="view-header-title" style="display: none;">
+                <button id="back-to-main-btn" title="Back"><i class='bx bx-arrow-back'></i></button>
+                <h3 id="view-title"></h3>
+            </div>
+            <div class="header-buttons">
+                <button id="dark-mode-toggle" title="Toggle Dark Mode"><i class='bx bx-moon'></i></button>
+                <button id="close-btn" title="Close Window"><i class='bx bx-x'></i></button>
+            </div>
+        </header>
+
+        <main class="supbyte-content" id="main-view">
+            <div class="table-selector">
+                <button id="prev-table-btn" title="Previous Table"><i class='bx bx-chevron-left'></i></button>
+                <div id="table-indicator">Searching...</div>
+                <button id="next-table-btn" title="Next Table"><i class='bx bx-chevron-right'></i></button>
+            </div>
+            
+            <div class="click-hint">
+                💡 Tip: Click any table on the page to select it!
+            </div>
+
+            <div class="form-group">
+                <label for="filename"><i class='bx bx-file-blank'></i> File Name</label>
+                <input type="text" id="filename" placeholder="Select a table...">
+            </div>
+
+            <div class="form-group">
+                <label for="format"><i class='bx bx-dots-horizontal-rounded'></i> Format</label>
+                <select id="format">
+                    <option value="xlsx">Excel (XLSX)</option>
+                    <option value="csv">CSV</option>
+                    <option value="pdf">PDF</option>
+                    <option value="json">JSON</option>
+                    <option value="docx">Word (DOCX)</option>
+                    <option value="md">Markdown (MD)</option>
+                </select>
+            </div>
+            
+            <div class="button-group">
+                <button id="export-button"><i class='bx bxs-download'></i> Download</button>
+                <button id="copy-button"><i class='bx bx-copy'></i> Copy CSV</button>
+            </div>
+            <div class="button-group" style="margin-top: 8px;">
+                 <button id="copy-styled-button"><i class='bx bx-paste'></i> Copy Styled</button>
+            </div>
+            <div id="status-feedback"></div>
+        </main>
+
+        <div class="view-content" id="edit-view" style="display: none;">
+            <div class="edit-view-header">
+                <label><i class='bx bx-columns'></i> Manage Columns</label>
+                <div>
+                    <button id="reload-button" class="text-button" title="Reload page to reset all edits"><i class='bx bx-reset'></i> Reset & Reload</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <ul id="column-list" class="column-list">
+                    </ul>
+            </div>
+        </div>
+
+        <div class="view-content" id="chart-view" style="display: none;">
+             <div class="form-group">
+                <label for="chart-type"><i class='bx bx-chart'></i> Chart Type</label>
+                <select id="chart-type">
+                    <option value="bar">Bar Chart</option>
+                    <option value="line">Line Chart</option>
+                    <option value="pie">Pie Chart</option>
+                    <option value="scatter">Scatter Plot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="chart-title"><i class='bx bx-heading'></i> Chart Title</label>
+                <input type="text" id="chart-title" placeholder="Optional: My Awesome Chart">
+            </div>
+
+            <div id="config-bar-line" class="chart-config-group">
+                <div class="form-group">
+                    <label for="label-column-bar-line"><i class='bx bx-rename'></i> Labels (X-Axis)</label>
+                    <select id="label-column-bar-line"></select>
+                </div>
+                <div class="form-group">
+                    <label><i class='bx bx-layer'></i> Data Series (Y-Axis)</label>
+                    <div id="data-series-container"></div>
+                    <button id="add-series-btn" class="text-button" style="margin-top: 8px;"><i class='bx bx-plus'></i> Add Data Series</button>
+                </div>
+            </div>
+
+            <div id="config-pie" class="chart-config-group" style="display: none;">
+                 <div class="form-group">
+                    <label for="label-column-pie"><i class='bx bx-rename'></i> Slice Labels</label>
+                    <select id="label-column-pie"></select>
+                </div>
+                <div class="form-group">
+                    <label for="data-column-pie"><i class='bx bxs-pie-chart-alt-2'></i> Slice Values</label>
+                    <select id="data-column-pie"></select>
+                </div>
+            </div>
+
+            <div id="config-scatter" class="chart-config-group" style="display: none;">
+                <div class="form-group">
+                    <label for="data-column-x-scatter"><i class='bx bx-git-compare'></i> X-Axis Data</label>
+                    <select id="data-column-x-scatter"></select>
+                </div>
+                <div class="form-group">
+                    <label for="data-column-y-scatter"><i class='bx bx-line-chart'></i> Y-Axis Data</label>
+                    <select id="data-column-y-scatter"></select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="generate-chart-btn"><i class='bx bxs-pie-chart-alt-2'></i> Generate Chart</button>
+            </div>
+        </div>
+    
+        <footer class="supbyte-footer">
+            <div class="settings-toggle" id="settings-toggle">
+                <span>Advanced Options</span>
+                <i class='bx bx-chevron-down'></i>
+            </div>
+            <div class="advanced-options" id="advanced-options">
+                 <div class="form-group advanced-format-option" data-format="pdf">
+                    <label for="pdf-orientation">PDF Orientation</label>
+                    <select id="pdf-orientation">
+                        <option value="portrait">Portrait</option>
+                        <option value="landscape">Landscape</option>
+                    </select>
+                </div>
+                <div class="form-group advanced-format-option" data-format="pdf">
+                    <label for="pdf-theme">PDF Theme</label>
+                    <select id="pdf-theme">
+                        <option value="grid">Grid</option>
+                        <option value="striped">Striped</option>
+                        <option value="plain">Plain</option>
+                    </select>
+                </div>
+                 <div class="form-group advanced-format-option" data-format="pdf">
+                    <label for="pdf-font-size">Font Size</label>
+                    <input type="number" id="pdf-font-size" value="10" min="6" max="20" style="padding: 9px 12px; width: 60px;">
+                </div>
+                <div class="form-group advanced-format-option" data-format="xlsx">
+                    <label for="sheet-name">Sheet Name</label>
+                    <input type="text" id="sheet-name" value="Sheet1">
+                </div>
+                <div class="form-group advanced-format-option" data-format="csv">
+                    <label for="delimiter">CSV Delimiter</label>
+                    <select id="delimiter">
+                        <option value=",">Comma (,)</option>
+                        <option value=";">Semicolon (;)</option>
+                        <option value="\t">Tab</option>
+                    </select>
+                </div>
+                <div class="form-group advanced-format-option" data-format="json">
+                    <label for="json-format">JSON Format</label>
+                    <select id="json-format">
+                        <option value="objects">Array of Objects (default)</option>
+                        <option value="arrays">Array of Arrays</option>
+                    </select>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="injected-ui.js"></script>
+</body>
+</html>

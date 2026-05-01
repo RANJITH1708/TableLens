@@ -1,0 +1,55 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "name": "TableLens: Edit, Visualize & Export Web Tables",
+  "version": "1.0.1",
+  "description": "The Ultimate Web Scraper to Edit, Visualize & Export any Table to Excel, CSV, PDF & More",
+  "permissions": [
+    "scripting",
+    "downloads",
+    "offscreen",
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/papaparse.min.js", "content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "TableLens"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected-ui.html",
+        "injected-ui.js",
+        "injected-ui.css",
+        "icon16.png",
+        "lib/boxicons.min.css",
+        "lib/boxicons.woff2",
+        "lib/chart.umd.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "options_page": "options.html"
+}

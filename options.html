@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TableLens Options</title> <meta charset="UTF-8">
+    <style>
+        /* -- 'Dusk Gray' Theme applied to Options -- */
+        :root {
+            --surface-color: #E9ECEF;
+            --body-bg-color: #F8F9FA;
+            --section-bg-color: #DEE2E6;
+            --border-color: #CED4DA;
+            --primary-text: #212529;
+            --secondary-text: #495057;
+            --accent-color: #007BFF;
+            --hover-accent-color: #0069D9;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 600px; 
+            margin: auto; 
+            background-color: var(--body-bg-color); /* MODIFIED */
+            color: var(--primary-text); /* MODIFIED */
+        }
+        h1 { 
+            color: var(--accent-color); /* MODIFIED */
+            border-bottom: 2px solid var(--border-color); /* MODIFIED */
+            padding-bottom: 10px; 
+        }
+        .option-group { 
+            margin-bottom: 30px; 
+            background-color: var(--surface-color); /* MODIFIED */
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: bold; 
+            color: var(--secondary-text); /* MODIFIED */
+        }
+        select, input[type="text"] { 
+            width: 100%; 
+            padding: 8px; 
+            border-radius: 4px; 
+            border: 1px solid var(--border-color); /* MODIFIED */
+            box-sizing: border-box; 
+            margin-bottom: 10px; 
+            background-color: var(--section-bg-color); /* MODIFIED */
+            color: var(--primary-text); /* MODIFIED */
+        }
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.4);
+        }
+        button { 
+            background-color: var(--accent-color); /* MODIFIED */
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+        }
+        button:hover { 
+            background-color: var(--hover-accent-color); /* MODIFIED */
+        }
+        #status { 
+            margin-top: 15px; 
+            color: green; 
+            font-weight: bold; 
+            height: 20px; 
+        }
+        .hint { 
+            font-size: 12px; 
+            color: var(--secondary-text); /* MODIFIED */
+            margin-top: -5px; 
+        }
+        code { 
+            background: var(--section-bg-color); /* MODIFIED */
+            padding: 2px 5px; 
+            border-radius: 3px; 
+            font-family: monospace; 
+        }
+    </style>
+</head>
+<body>
+    <h1>TableLens Settings</h1> <div class="option-group">
+        <label for="defaultFormat">Default Export Format</label>
+        <select id="defaultFormat">
+            <option value="xlsx">Excel (XLSX)</option>
+            <option value="csv">CSV</option>
+            <option value="pdf">PDF</option>
+            <option value="json">JSON</option>
+            <option value="docx">Word (DOCX)</option>
+        </select>
+    </div>
+
+    <div class="option-group">
+        <label for="filenamePattern">Default Filename Pattern</label>
+        <input type="text" id="filenamePattern">
+        <p class="hint">
+            Create your own default filenames. Available placeholders:<br>
+            <code>[pageTitle]</code>, <code>[date]</code>, <code>[time]</code>
+        </p>
+    </div>
+
+    <button id="save">Save Settings</button>
+    <div id="status"></div>
+
+    <script src="options.js"></script>
+</body>
+</html>
